@@ -1,0 +1,238 @@
+<div class="site-content" #contentScroll (scroll)="onContentScroll($event)">
+	<header class="site-header">
+		<div class="container">
+			<div class="main-navigation">
+				<button class="menu-toggle" (click)="showMobileMenu = !showMobileMenu">
+					<ion-icon name="menu-outline" style="color:#390ccc; font-size:24px; vertical-align:middle;"></ion-icon>
+        </button>
+				<h1 class="header small-header" *ngIf="showHeaderTitle" style="display:inline-block; margin:0 0 0 16px; padding:8px 20px; vertical-align:middle; line-height:24px;">HTIMOM</h1>
+
+				<ul class="menu" [class.open]="showMobileMenu">
+					<li class="menu-item" [class.current-menu-item]="true"><a href="tabs">Homepage <small>Qalo</small></a></li>
+					<li class="menu-item" [class.current-menu-item]="false"><a href="sermons">Seremons <small>Thuto</small></a></li>
+					<li class="menu-item" [class.current-menu-item]="false"><a href="events">Events <small>Mekete</small></a></li>
+					<li class="menu-item" [class.current-menu-item]="false">
+    <a href="#" (click)="scrollToFooter($event)">Contact<small>Tsela tsa lipuisano</small></a>
+  </li>
+  
+				</ul>
+			</div>
+			<div class="mobile-navigation"></div>
+		</div>
+	</header>
+
+	<div class="hero">
+		<div class="slides">
+			<div class="slide"
+				[ngStyle]="{'background-image': 'url(assets/images/slide-1.jpg)'}">
+				<div class="container">
+					<div class="slide-content">
+						<small class="slide-subtitle">His Truth is matching on ministries </small>
+						<h2 class="slide-title">House of God</h2>
+						<button type="button" class="button" (click)="showLoginForm = true">Login</button>
+
+						<div style="margin-top: 10px;">
+	<span>Don't have an account?
+		<a href="#" style="color:#007bff; text-transform:none;" (click)="showSignupForm = true; showLoginForm = false; $event.preventDefault()">SIGN UP HERE</a>
+	</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<main class="main-content">
+		<div class="fullwidth-block">
+			<div class="container">
+				<h2 class="section-title">SERMONS</h2>
+
+				<div class="row">
+					<div class="col-md-3 col-sm-6" *ngFor="let sermon of sermons">
+						<div class="news">
+							<div class="news-image news-video">
+								<iframe [src]="sermon.videoUrl | safe"
+									[title]="sermon.title"
+									frameborder="0"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+									referrerpolicy="strict-origin-when-cross-origin"
+									allowfullscreen>
+								</iframe>
+							<!-- </div> -->
+							<h3 class="news-title"><a href="#">{{ sermon.preacher }}</a></h3>
+							<small class="date"><i class="fa fa-calendar"></i>{{ sermon.date }}</small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	<div *ngIf="showLoginForm" class="custom-modal-overlay">
+  <div class="custom-modal">
+    <div class="custom-modal-header">
+      <span class="custom-modal-title">Login</span>
+      <button class="custom-modal-close" (click)="showLoginForm = false">&times;</button>
+    </div>
+    <form [formGroup]="loginForm" class="custom-event-form custom-modal-body" (ngSubmit)="onLoginSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <div class="input-icon-group">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input id="email" formControlName="email" type="email" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-icon-group">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <input id="password" formControlName="password" type="password" required>
+        </div>
+      </div>
+      <div  class="form-footer" style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 18px;">
+        <button type="button" class="button button-outline" (click)="showLoginForm = false">Cancel</button>
+        <button type="submit" class="button" [disabled]="loginForm.invalid">Login</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Signup Modal -->
+<div *ngIf="showSignupForm" class="custom-modal-overlay">
+  <div id="signup-modal-form" class="custom-modal">
+    <div class="custom-modal-header">
+      <span class="custom-modal-title">Sign Up</span>
+      <button class="custom-modal-close" (click)="showSignupForm = false">&times;</button>
+    </div>
+    <form [formGroup]="signupForm" class="custom-event-form custom-modal-body" (ngSubmit)="onSignupSubmit()">
+      <div class="form-group">
+        <label for="signup-name">Name</label>
+        <div class="input-icon-group">
+          <ion-icon name="person-outline"></ion-icon>
+          <input id="signup-name" formControlName="name" type="text" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="signup-surname">Surname</label>
+        <div class="input-icon-group">
+          <ion-icon name="people-outline"></ion-icon>
+          <input id="signup-surname" formControlName="surname" type="text" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="signup-email">Email</label>
+        <div class="input-icon-group">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input id="signup-email" formControlName="email" type="email" required>
+        </div>
+        <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid" class="error-message">
+          <span *ngIf="signupForm.get('email')?.errors?.['required']">Email is required.</span>
+          <span *ngIf="signupForm.get('email')?.errors?.['email'] || signupForm.get('email')?.errors?.['pattern']">Please enter a valid email address.</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="signup-phone">Phone Number</label>
+        <div class="input-icon-group">
+          <ion-icon name="call-outline"></ion-icon>
+          <input id="signup-phone" formControlName="phone" type="tel" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="signup-date">Date Church Joined</label>
+        <div class="input-icon-group">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <input id="signup-date" formControlName="dateJoined" type="date" required>
+        </div>
+      </div>
+      <div class="form-group">
+    <label for="signup-password">Password</label>
+    <div class="input-icon-group">
+      <ion-icon name="lock-closed-outline"></ion-icon>
+      <input id="signup-password" formControlName="password" type="password" required minlength="6" autocomplete="new-password">
+    </div>
+    <div *ngIf="signupForm.get('passworcad')?.touched && signupForm.get('password')?.invalid" class="error-message">
+      <span *ngIf="signupForm.get('password')?.errors?.['required']">Password is required.</span>
+      <span *ngIf="signupForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters.</span>
+      <span *ngIf="signupForm.get('password')?.errors?.['pattern']">Password must contain at least one letter and one number.</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="signup-confirm-password">Confirm Password</label>
+    <div class="input-icon-group">
+      <ion-icon name="lock-closed-outline"></ion-icon>
+      <input id="signup-confirm-password" formControlName="confirmPassword" type="password" required autocomplete="new-password">
+    </div>
+    <div *ngIf="signupForm.get('confirmPassword')?.touched && signupForm.get('confirmPassword')?.invalid" class="error-message">
+      <span *ngIf="signupForm.get('confirmPassword')?.errors?.['required']">Please confirm your password.</span>
+      <span *ngIf="signupForm.get('confirmPassword')?.errors?.['mismatch']">Passwords do not match.</span>
+    </div>
+  </div>
+      <div class="form-footer" style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 22px;">
+        <button type="button" class="button button-outline" (click)="showSignupForm = false">Cancel</button>
+        <button type="submit" class="button" [disabled]="signupForm.invalid">Sign Up</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+	<footer id="footer" class="site-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="widget">
+						<h3 class="widget-title">Our Address</h3>
+						<p>Feel free to visit us or contact us for any questions or prayer requests.</p>
+<ul class="address">
+    <li>
+        <ion-icon name="location-sharp" class="address-icon"></ion-icon>
+        Mankoaneng Ha Thetsane
+    </li>
+    <li>
+        <ion-icon name="call-sharp" class="address-icon"></ion-icon>
+        +26 57868050
+    </li>
+    <li>
+        <ion-icon name="call-sharp" class="address-icon"></ion-icon>
+        +26 27358050
+    </li>
+    <li>
+       <ion-icon name="logo-youtube" class="address-icon"></ion-icon>
+        <a href="https://www.youtube.com/@histruthismarchingonminist9959" target="_blank" rel="noopener">
+
+            YouTube Channel
+        </a>
+    </li>
+</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="widget">
+						<h3 class="widget-title">Topics from Last Meeting</h3>
+						<ul class="bullet">
+							<li><a href="#">God's Everlasting Love</a></li>
+							<li><a href="#">Faith in Difficult Times</a></li>
+							<li><a href="#">Living with Purpose</a></li>
+							<li><a href="#">The Power of Prayer</a></li>
+							<li><a href="#">Finding Joy in Service</a></li>
+							<li><a href="#">Walking in Grace Daily</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="widget">
+						<h3 class="widget-title">Contact Form</h3>
+						<form action="#" class="contact-form">
+							<div class="row">
+								<div class="col-md-6"><input type="text" placeholder="Your name..."></div>
+								<div class="col-md-6"><input type="text" placeholder="Email..."></div>
+							</div>
+							<textarea name="" placeholder="Your message..."></textarea>
+							<div class="text-right"><input type="submit" value="Send Message"></div>
+						</form>
+					</div>
+				</div>
+			</div> <!-- .row -->
+			<p class="colophon">Copyright © 2014 His Truth is matching on ministries All rights reserved.</p>
+		</div>
+	</footer>
+</div>

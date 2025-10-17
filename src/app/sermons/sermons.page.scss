@@ -1,0 +1,197 @@
+.sermons-content {
+  position: static;
+  padding-top: 0px;
+}
+
+.sermons-content::before {
+  content: none;
+  display: none;
+}
+
+.header.small-header {
+  display: none !important;
+}
+
+.add-sermon-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  z-index: 2001; // ensure above overlays
+  background: #390ccc;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  box-shadow: 0 2px 8px rgba(57,12,204,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4em;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.add-sermon-btn:hover,
+.add-sermon-btn:focus {
+  background: #2a0999;
+}
+
+.add-sermon-modal,
+.add-sermon-modal-content {
+  z-index: 3000 !important;
+}
+
+.add-sermon-modal {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+}
+
+.add-sermon-modal-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 28px 20px 20px 20px;
+  min-width: 300px;
+  max-width: 95vw;
+  box-shadow: 0 4px 24px rgba(57,12,204,0.13), 0 1.5px 4px rgba(0,0,0,0.08);
+  z-index: 3001;
+  position: relative;
+}
+
+.add-sermon-modal-content h3 {
+  margin-top: 0;
+  color: #390ccc;
+  font-size: 1.3em;
+  font-weight: 700;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.add-sermon-modal-content form label {
+  display: block;
+  font-size: 1em;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 6px;
+  margin-top: 12px;
+}
+
+.add-sermon-modal-content input,
+.add-sermon-modal-content textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border: 1.5px solid #e0e3f3;
+  border-radius: 6px;
+  font-size: 1em;
+  font-family: inherit;
+  background: #f6f7fb;
+  color: #222;
+  transition: border-color 0.18s, background 0.18s;
+  box-sizing: border-box;
+}
+
+.add-sermon-modal-content input:focus,
+.add-sermon-modal-content textarea:focus {
+  border-color: #390ccc;
+  background: #f3f1fd;
+  outline: none;
+}
+
+.add-sermon-modal-content textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.add-sermon-modal-content .form-footer,
+.add-sermon-modal-content .modal-footer,
+.add-sermon-modal-content .modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.add-sermon-modal-content button {
+  background: #390ccc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 9px 22px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1.5px 4px rgba(57,12,204,0.07);
+}
+
+.add-sermon-modal-content button:disabled {
+  background: #b2b2b2;
+  cursor: not-allowed;
+}
+
+.add-sermon-modal-content button:not(:disabled):hover,
+.add-sermon-modal-content button:not(:disabled):focus {
+  background: #2a0999;
+}
+
+.add-sermon-modal-content button[type="button"] {
+  background: #fff;
+  color: #390ccc;
+  border: 1.5px solid #390ccc;
+  box-shadow: none;
+}
+
+.add-sermon-modal-content button[type="button"]:hover,
+.add-sermon-modal-content button[type="button"]:focus {
+  background: #f3f1fd;
+  color: #2a0999;
+  border-color: #2a0999;
+}
+
+@media screen and (max-width: 600px) {
+  .sermons-content {
+    padding-top: 0 !important;
+    margin-top: 40px !important;
+  }
+
+  .header.small-header {
+    display: inline-block !important;
+  }
+
+  .add-sermon-btn {
+    width: 48px;
+    height: 48px;
+    font-size: 2em;
+    right: 14px;
+    bottom: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-sermon-modal-content {
+    padding: 16px 4vw 12px 4vw;
+    min-width: 0;
+    max-width: 99vw;
+  }
+  .add-sermon-modal-content h3 {
+    font-size: 1.1em;
+  }
+  .add-sermon-modal-content button,
+  .add-sermon-modal-content input,
+  .add-sermon-modal-content textarea {
+    font-size: 0.98em;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 1024px) {
+  .sermons-content {
+    margin-top: -16px !important; // Adjust as needed to remove the gap
+    padding-top: 0 !important;
+  }
+}
+

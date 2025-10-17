@@ -1,0 +1,244 @@
+<header class="site-header" style="position:sticky;top:0;z-index:100;background:#fff;">
+  <div class="container">
+    <div class="main-navigation">
+      <button class="menu-toggle" (click)="showMobileMenu = !showMobileMenu">
+        <ion-icon name="menu-outline" style="color:#390ccc; font-size:24px; vertical-align:middle;"></ion-icon>
+      </button>
+      <h1 class="header small-header show-mobile-header"
+          style="display:inline-block; margin:0 0 0 16px; padding:8px 20px; vertical-align:middle; line-height:24px;">
+        HTIMOM
+      </h1>
+      <ul class="menu" [class.open]="showMobileMenu">
+        <li class="menu-item" [class.current-menu-item]="false"><a href="tabs">Homepage <small>Qalo</small></a></li>
+        <li class="menu-item" [class.current-menu-item]="false"><a href="sermons">Seremons <small>Thuto</small></a></li>
+        <li class="menu-item" [class.current-menu-item]="true"><a href="events">Events <small>Mekete</small></a></li>
+        <li class="menu-item" [class.current-menu-item]="false">
+          <a href="#" (click)="scrollToFooter($event)">Contact<small>Tsela tsa lipuisano</small></a>
+        </li>
+      </ul>
+    </div>
+    <div class="mobile-navigation"></div>
+  </div>
+</header>
+
+<ion-content class="ion-padding" #contentScroll (ionScroll)="onContentScroll($event)" scrollEvents="true">
+
+  <!-- Stats Cards -->
+  <ion-grid class="first">
+    <ion-row class="row">
+      <ion-col size="4" size-xs="4" size-sm="4" class="col">
+        <ion-card color="primary" class="card-shink">
+          <ion-card-content class="content-shink">
+            <div class="ion-text-center">
+              <div>Total Events</div>
+              <div class="stat-number">{{ events.length }}</div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4" size-xs="4" size-sm="4" class="col">
+        <ion-card color="success" class="card-shink">
+          <ion-card-content class="content-shink">
+            <div class="ion-text-center">
+              <div>Total Attendees</div>
+              <div class="stat-number">{{ totalAttendees }}</div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4" size-xs="4" size-sm="4" class="col">
+        <ion-card color="tertiary" class="card-shink">
+          <ion-card-content class="content-shink">
+            <div class="ion-text-center">
+              <div>This Week</div>
+              <div class="stat-number">{{ eventsThisWeek }}</div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Events Grid -->
+  <ion-grid class="second events-grid">
+    <ion-row class="events-row">
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let event of events">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ event.title }}</ion-card-title>
+            <!-- <ion-chip color="{{ getEventTypeColor(event.type) }}" class="ion-margin-top"></ion-chip> -->
+            <ion-card-subtitle>{{ event.description }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-icon name="calendar-outline" slot="start"></ion-icon>
+              <ion-label>{{ formatDate(event.date) }}</ion-label>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-icon name="time-outline" slot="start"></ion-icon>
+              <ion-label>{{ event.time }}</ion-label>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-icon name="location-outline" slot="start"></ion-icon>
+              <ion-label>{{ event.location }}</ion-label>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-icon name="people-outline" slot="start"></ion-icon>
+              <ion-label>
+                {{ event.attendees }}<ng-container *ngIf="event.maxAttendees">/{{ event.maxAttendees }}</ng-container> attendees
+              </ion-label>
+            </ion-item>
+            <ion-progress-bar *ngIf="event.maxAttendees"
+              [value]="event.attendees / event.maxAttendees"
+              color="primary"
+              class="ion-margin-vertical">
+            </ion-progress-bar>
+            <ion-buttons>
+              <ion-button fill="outline" size="small" (click)="openEditModal(event)" class="events-edit-btn">
+                <ion-icon name="create-outline" slot="start"></ion-icon>
+                Edit
+              </ion-button>
+              <ion-button fill="outline" color="danger" size="small" (click)="deleteEvent(event.id)" class="events-delete-btn">
+                <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div *ngIf="events.length === 0" class="ion-text-center ion-padding">
+    <ion-icon name="calendar-outline" size="large" color="medium"></ion-icon>
+    <h3>No events yet</h3>
+    <p>Get started by creating your first church event.</p>
+    <ion-button (click)="openCreateModal()" class="events-create-btn">
+      <ion-icon name="add" slot="start"></ion-icon>
+      Create Your First Event
+    </ion-button>
+  </div>
+xz
+  <!-- Floating Action Button for Create Event -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="openCreateModal()" class="events-create-btn">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Event Modal (Custom Popup) -->
+  <div *ngIf="isModalOpen" class="custom-modal-overlay">
+    <div class="custom-modal">
+      <div class="custom-modal-header">
+        <span class="custom-modal-title">{{ editingEvent ? 'Edit Event' : 'Create Event' }}</span>
+        <button type="button" class="custom-modal-close" (click)="closeModal()">&times;</button>
+      </div>
+      <form class="custom-event-form" [formGroup]="eventForm" (ngSubmit)="saveEvent()">
+        <div class="custom-modal-body">
+          <div class="form-group">
+            <label>Title</label>
+            <input formControlName="title" type="text" required />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea formControlName="description"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input formControlName="date" type="date" required />
+          </div>
+          <div class="form-group">
+            <label>Time</label>
+            <input formControlName="time" type="time" required />
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            <input formControlName="location" type="text" required />
+          </div>
+          <div class="form-group">
+            <label>Type</label>
+            <select formControlName="type" required>
+              <option value="service">Service</option>
+              <option value="meeting">Meeting</option>
+              <option value="study">Study</option>
+              <option value="outreach">Outreach</option>
+              <option value="youth">Youth</option>
+              <option value="worship">Worship</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Max Attendees</label>
+            <input formControlName="maxAttendees" type="number" min="1" />
+          </div>
+        </div>
+        <div class="custom-modal-footer">
+          <button type="submit" [disabled]="eventForm.invalid" class="custom-modal-save">
+            {{ editingEvent ? 'Update Event' : 'Create Event' }}
+          </button>
+          <button type="button" (click)="closeModal()" class="custom-modal-cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  	<footer id="footer" class="site-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="widget">
+						<h3 class="widget-title">Our Address</h3>
+						<p>Feel free to visit us or contact us for any questions or prayer requests.</p>
+<ul class="address">
+    <li>
+        <ion-icon name="location-sharp" class="address-icon"></ion-icon>
+        Mankoaneng Ha Thetsane
+    </li>
+    <li>
+        <ion-icon name="call-sharp" class="address-icon"></ion-icon>
+        +26 57868050
+    </li>
+    <li>
+        <ion-icon name="call-sharp" class="address-icon"></ion-icon>
+        +26 27358050
+    </li>
+    <li>
+       <ion-icon name="logo-youtube" class="address-icon"></ion-icon>
+        <a href="https://www.youtube.com/@histruthismarchingonminist9959" target="_blank" rel="noopener">
+
+            YouTube Channel
+        </a>
+    </li>
+</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="widget">
+						<h3 class="widget-title">Topics from Last Meeting</h3>
+						<ul class="bullet">
+							<li><a href="#">God's Everlasting Love</a></li>
+							<li><a href="#">Faith in Difficult Times</a></li>
+							<li><a href="#">Living with Purpose</a></li>
+							<li><a href="#">The Power of Prayer</a></li>
+							<li><a href="#">Finding Joy in Service</a></li>
+							<li><a href="#">Walking in Grace Daily</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="widget">
+						<h3 class="widget-title">Contact Form</h3>
+						<form action="#" class="contact-form">
+							<div class="row">
+								<div class="col-md-6"><input type="text" placeholder="Your name..."></div>
+								<div class="col-md-6"><input type="text" placeholder="Email..."></div>
+							</div>
+							<textarea name="" placeholder="Your message..."></textarea>
+							<div class="text-right"><input type="submit" value="Send Message"></div>
+						</form>
+					</div>
+				</div>
+			</div> <!-- .row -->
+			<p class="colophon">Copyright © 2014 His Truth is matching on ministries All rights reserved.</p>
+		</div>
+	</footer>
+</ion-content>

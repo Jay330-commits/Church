@@ -1,0 +1,373 @@
+html, body, :host, ion-content {
+  background: #f7f7fa !important; // darker white
+}
+
+ion-content {
+  --background: #f7f7fa !important;
+}
+
+ion-header, ion-toolbar {
+  background: #fff !important;
+  --background: #fff !important;
+}
+
+ion-header ion-title,
+ion-toolbar ion-title {
+  color: #390ccc !important;
+  text-align: center;
+  width: 100%;
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+
+.stat-number {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.events-grid,
+.events-grid * {
+  color:#dcc2a0!important;
+}
+
+// Keep event card header blue
+.events-grid ion-card-header,
+.events-grid ion-card-header * {
+  color: #390ccc !important;
+}
+
+// Events grid cards: darker white background
+.events-grid ion-card {
+  background: #e1e1e4 !important;
+  --background: #d6d6de !important;
+}
+
+/* Restore modal and form backgrounds for clarity */
+ion-modal,
+ion-modal .modal-wrapper,
+ion-modal .events-modal-content,
+ion-modal form.event-form,
+ion-modal ion-content,
+ion-modal ion-list,
+ion-modal ion-item {
+
+  color: #e2dfdf !important;
+}
+
+/* Add subtle background and border to form fields for visibility */
+ion-modal .event-form ion-item {
+  background: #fff !important;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+ion-modal .event-form ion-label,
+ion-modal .event-form ion-input,
+ion-modal .event-form ion-textarea,
+ion-modal .event-form ion-select {
+  color: #222 !important;
+}
+
+ion-modal .event-form ion-input,
+ion-modal .event-form ion-textarea {
+  background: #f7f7fa !important;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding-left: 8px;
+}
+
+.custom-modal-overlay {
+  position: fixed;
+  z-index: 2000;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-modal {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  width: 95vw;
+  max-width: 420px;
+  padding: 0;
+  animation: modalIn 0.18s;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes modalIn {
+  from { transform: translateY(40px) scale(0.97); opacity: 0; }
+  to   { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.custom-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px 10px 22px;
+  border-bottom: 1px solid #ececec;
+}
+
+.custom-modal-title {
+  font-size: 1.18em;
+  font-weight: 600;
+  color: #390ccc;
+}
+
+.custom-modal-close {
+  background: none;
+  border: none;
+  font-size: 1.8em;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 0 2px 0;
+  transition: color 0.2s;
+}
+.custom-modal-close:hover {
+  color: #390ccc;
+}
+
+.custom-event-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.custom-modal-body {
+  padding: 18px 22px 8px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-group label {
+  font-size: 0.98em;
+  font-weight: 500;
+  color: #8f7655;
+  margin-bottom: 2px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 7px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 1em;
+  background: #f7f7fa;
+  color: #222;
+  resize: none;
+  transition: border 0.2s;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border: 1.5px solid #390ccc;
+  outline: none;
+}
+
+/* Make icons inside the custom modal form blue and visible */
+.custom-modal ion-icon,
+.custom-modal .form-group ion-icon {
+  color: #390ccc !important;
+  fill: #390ccc !important;
+}
+
+/* All icons in events grid default to#dcc2a0except edit/delete */
+.events-grid ion-icon {
+  color:#dcc2a0!important;
+  fill:#dcc2a0!important;
+}
+
+/* Edit and delete icons in events grid remain white */
+.events-grid .events-edit-btn ion-icon,
+.events-grid .events-delete-btn ion-icon {
+  color: #fff !important;
+  fill: #fff !important;
+}
+
+.custom-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 12px 22px 18px 22px;
+  border-top: 1px solid #ececec;
+  background: #fafafd;
+  border-radius: 0 0 14px 14px;
+}
+
+.custom-modal-save {
+  background: #390ccc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.custom-modal-save:disabled {
+  background: #bdbdbd;
+  cursor: not-allowed;
+}
+.custom-modal-cancel {
+  background: #eee;
+  color: #222;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 18px;
+  font-weight: 500;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.custom-modal-cancel:hover {
+  background: #e1e1e4;
+}
+
+/* Change color of date/time picker icons inside ion-input (Ionic 6+) */
+ion-input[type="date"]::part(native-input),
+ion-input[type="time"]::part(native-input) {
+  color-scheme: light;
+}
+
+/* For Chrome, Edge, Safari: style the calendar/time icon */
+ion-input[type="date"] input[type="date"]::-webkit-calendar-picker-indicator,
+ion-input[type="time"] input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(23%) sepia(89%) saturate(7492%) hue-rotate(249deg) brightness(90%) contrast(110%);
+  /* This filter makes the icon #390ccc */
+}
+
+/* For Firefox */
+ion-input[type="date"] input[type="date"],
+ion-input[type="time"] input[type="time"] {
+  color: #390ccc;
+}
+
+/* Ensure all button text is always white, including inside ion-buttons and custom modal */
+button,
+ion-button,
+.custom-modal-save,
+.events-create-btn,
+.events-edit-btn,
+.events-delete-btn,
+.custom-modal-footer button,
+ion-button .button-inner,
+ion-button span,
+.custom-modal-cancel {
+  color: #fff !important;
+}
+
+/* Ensure event grid action buttons have white text */
+.events-grid ion-button,
+.events-grid ion-button span,
+.events-grid ion-button .button-inner {
+  color: #fff !important;
+}
+
+/* Make cancel button text dark if needed */
+.custom-modal-cancel {
+  color: #222 !important;
+  background: #eee;
+}
+
+.events-create-btn,
+ion-fab-button.events-create-btn {
+  --background: #390ccc !important;
+  color: #fff !important;
+  font-size: 1.8em;
+  box-shadow: 0 4px 16px rgba(57,12,204,0.13);
+}
+
+/* Only show the header title on mobile screens */
+.show-mobile-header {
+  display: none !important;
+}
+@media (max-width: 600px) {
+  .show-mobile-header {
+    display: inline-block !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-modal {
+    max-width: 98vw;
+    padding: 0;
+  }
+  .custom-modal-header,
+  .custom-modal-body,
+  .custom-modal-footer {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .first .row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .first .col {
+    flex: 0 0 auto;
+    width: auto !important;
+    max-width: none !important;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  .card-shink {
+    min-width: 110px;
+    max-width: 120px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+  }
+  .content-shink {
+    padding: 8px 2px !important;
+  }
+  .ion-text-center {
+    font-size: 0.7rem;
+    padding: 0.05rem 0.01rem;
+    max-width: 90vw;
+    width: 100%;
+  }
+  .events-grid {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .events-row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

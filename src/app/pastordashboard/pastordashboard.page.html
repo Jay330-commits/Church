@@ -1,0 +1,120 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="dashboard-toolbar">
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="dashboard-content">
+  <!-- Hero Section -->
+  <div class="dashboard-hero">
+    <div class="hero-bg-gradient"></div>
+    <div class="hero-content ion-padding">
+      <img src="assets/images/moruti.jpg" alt="Pastor Avatar" class="pastor-avatar" />
+      <div>
+        <h1 class="dashboard-title">Welcome back, Pastor!</h1>
+        <p class="dashboard-subtitle">Here's what's happening in your church today.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <ion-grid class="stats-grid">
+    <ion-row>
+      <ion-col size="12" size-md="6" size-lg="3" *ngFor="let stat of stats">
+        <ion-card class="stat-card hoverable glass">
+          <ion-card-content>
+            <div class="stat-content">
+              <div>
+                <div class="stat-title">{{ stat.title }}</div>
+                <div class="stat-value">{{ stat.value }}</div>
+                <div class="stat-change">{{ stat.change }}</div>
+                <ion-button fill="clear" size="small" color="medium" (click)="onStatDetails(stat)" class="stat-details-btn" title="View details">
+                  <ion-icon name="eye-outline" slot="icon-only"></ion-icon>
+                </ion-button>
+              </div>
+              <div class="stat-icon-wrapper" [ngClass]="stat.color">
+                <ion-icon [name]="stat.icon" class="stat-icon"></ion-icon>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+      <!-- Recent Activity -->
+      <ion-col size="12" size-lg="6">
+        <ion-card class="hoverable glass">
+          <ion-card-header>
+            <ion-card-title class="flex items-center">
+              <ion-icon name="trending-up" class="recent-activity-icon blue"></ion-icon>
+              <span>Recent Activity</span>
+            </ion-card-title>
+            <ion-card-subtitle>Latest updates and changes in your church management</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="recent-activity-list">
+              <div *ngFor="let activity of recentActivity" class="recent-activity-item">
+                <div class="activity-dot blue"></div>
+                <div class="activity-details">
+                  <div class="activity-action">{{ activity.action }}</div>
+                  <div class="activity-name">{{ activity.name }}</div>
+                  <div class="activity-time">{{ activity.time }}</div>
+                </div>
+                <ion-button fill="clear" size="small" color="primary" (click)="onLikeActivity(activity)" [title]="activity.liked ? 'Unlike' : 'Like'">
+                  <ion-icon [name]="activity.liked ? 'heart' : 'heart-outline'" slot="icon-only"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <!-- Quick Actions -->
+      <ion-col size="12" size-lg="6">
+        <ion-card class="hoverable glass">
+          <ion-card-header>
+            <ion-card-title>Quick Actions</ion-card-title>
+            <ion-card-subtitle>Common tasks you can perform</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid class="quick-actions-grid">
+              <ion-row>
+                <ion-col size="6" *ngFor="let action of quickActions">
+                  <a [routerLink]="action.href" class="quick-action-link" [ngClass]="action.color" title="{{ action.title }}">
+                    <ion-icon [name]="action.icon" class="quick-action-icon"></ion-icon>
+                    <div class="quick-action-title">{{ action.title }}</div>
+                  </a>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Floating Action Button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary" (click)="openQuickActionModal()" title="Quick Create">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Quick Action Modal -->
+  <ion-modal [isOpen]="showQuickActionModal" (didDismiss)="closeQuickActionModal()">
+    <ng-template>
+      <ion-content class="ion-padding">
+        <h2>Quick Create</h2>
+        <ion-list>
+          <ion-item button *ngFor="let action of quickActions" (click)="onQuickAction(action)">
+            <ion-icon [name]="action.icon" slot="start"></ion-icon>
+            <ion-label>{{ action.title }}</ion-label>
+          </ion-item>
+        </ion-list>
+        <ion-button expand="block" color="medium" (click)="closeQuickActionModal()">Close</ion-button>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
